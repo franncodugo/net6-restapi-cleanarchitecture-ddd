@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using DinnerRes.Application.Authentication.Interfaces;
+using DinnerRes.Application.Common.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
@@ -9,6 +10,13 @@ namespace DinnerRes.Infrastructure.Authentication;
 
 public class JwtTokenGenerator : IJwtTokenGenerator
 {
+    private readonly IDateTimeProvider _dateTimeProvider;
+
+    public JwtTokenGenerator(IDateTimeProvider dateTimeProvider)
+    {
+        _dateTimeProvider = dateTimeProvider ?? throw new ArgumentNullException(nameof(dateTimeProvider));
+    }
+
     public string GenerateToken(Guid userId, string firstName, string lastName)
     {
         var signingCredentials = new SigningCredentials(
@@ -27,7 +35,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
 
         var securityToken = new JwtSecurityToken(
             issuer: "DinnerRes",
-            expires: DateTime.Now.AddDays(1),
+            expires: _dateTimeProvider.UtcNow.AddMinutes(60),
             claims: claims,
             signingCredentials: signingCredentials);
 
