@@ -1,4 +1,4 @@
-namespace DinnerRes.Application.Authentication;
+namespace DinnerRes.Application.Authentication.Interfaces;
 
 public interface IAuthenticationService
 {

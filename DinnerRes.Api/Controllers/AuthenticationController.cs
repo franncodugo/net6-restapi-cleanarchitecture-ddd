@@ -1,6 +1,6 @@
-using DinnerRes.Application.Authentication;
-using DinnerRes.Contracts.Authentication;
+using DinnerRes.Api.Contracts.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using DinnerRes.Application.Authentication.Interfaces;
 
 namespace DinnerRes.Api.Controllers;
 
@@ -24,7 +24,7 @@ public class AuthenticationController : ControllerBase
     }
     
     [HttpPost("login")]
-    public IActionResult Register(LoginRequest request)
+    public IActionResult Login(LoginRequest request)
     {
         var result = _authService.Login(request.Email, request.Password);
         var response = new AuthenticationResponse(result.Id, result.FirstName, result.LastName, result.Email, result.Token);

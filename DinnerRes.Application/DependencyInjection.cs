@@ -1,4 +1,6 @@
 using DinnerRes.Application.Authentication;
+using DinnerRes.Application.Authentication.Interfaces;
+using DinnerRes.Application.Authentication.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DinnerRes.Application;

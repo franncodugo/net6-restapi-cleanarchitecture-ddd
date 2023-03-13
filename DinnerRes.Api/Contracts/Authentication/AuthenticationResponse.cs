@@ -1,4 +1,4 @@
-namespace DinnerRes.Contracts.Authentication;
+namespace DinnerRes.Api.Contracts.Authentication;
 
 public record AuthenticationResponse
 (

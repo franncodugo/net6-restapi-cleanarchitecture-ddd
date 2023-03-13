@@ -5,8 +5,6 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DinnerRes.Api", "DinnerRes.Api\DinnerRes.Api.csproj", "{FFE7F012-D9B7-41F1-8142-04EFA3C90672}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DinnerRes.Contracts", "DinnerRes.Contracts\DinnerRes.Contracts.csproj", "{63C99B51-B0E9-49FF-9546-F51F23595E5F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DinnerRes.Infrastructure", "DinnerRes.Infrastructure\DinnerRes.Infrastructure.csproj", "{140491B9-7F14-463C-B52F-FBB8CD251097}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DinnerRes.Application", "DinnerRes.Application\DinnerRes.Application.csproj", "{B2724D47-606A-475E-BED5-5D6A4171C3E2}"
@@ -26,10 +24,6 @@ Global
 		{FFE7F012-D9B7-41F1-8142-04EFA3C90672}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFE7F012-D9B7-41F1-8142-04EFA3C90672}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFE7F012-D9B7-41F1-8142-04EFA3C90672}.Release|Any CPU.Build.0 = Release|Any CPU
-		{63C99B51-B0E9-49FF-9546-F51F23595E5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{63C99B51-B0E9-49FF-9546-F51F23595E5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{63C99B51-B0E9-49FF-9546-F51F23595E5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{63C99B51-B0E9-49FF-9546-F51F23595E5F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{140491B9-7F14-463C-B52F-FBB8CD251097}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{140491B9-7F14-463C-B52F-FBB8CD251097}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{140491B9-7F14-463C-B52F-FBB8CD251097}.Release|Any CPU.ActiveCfg = Release|Any CPU

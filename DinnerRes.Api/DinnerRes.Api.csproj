@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DinnerRes.Application\DinnerRes.Application.csproj" />
-    <ProjectReference Include="..\DinnerRes.Contracts\DinnerRes.Contracts.csproj" />
     <ProjectReference Include="..\DinnerRes.Infrastructure\DinnerRes.Infrastructure.csproj" />
   </ItemGroup>
 
