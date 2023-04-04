@@ -2,9 +2,6 @@ namespace DinnerRes.Application.Authentication;
 
 public record AuthenticationResult
 (
-    Guid Id,
-    string FirstName,
-    string LastName,
-    string Email, 
+    Domain.Entities.User user,
     string Token
 );
