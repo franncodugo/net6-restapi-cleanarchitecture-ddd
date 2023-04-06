@@ -1,3 +1,4 @@
+using DinnerRes.Api.Middleware;
 using DinnerRes.Application;
 using DinnerRes.Application.Authentication;
 using DinnerRes.Infrastructure;
@@ -13,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
+    app.UseMiddleware<ErrorHandlingMiddleware>();
     app.UseHttpsRedirection();
     app.MapControllers();
     app.Run();
