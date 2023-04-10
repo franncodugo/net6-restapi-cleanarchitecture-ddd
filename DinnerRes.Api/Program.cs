@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using DinnerRes.Api.Filters;
 using DinnerRes.Api.Middleware;
 using DinnerRes.Application;
 using DinnerRes.Application.Authentication;
@@ -9,12 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
         .AddApplication()
         .AddInfrastructure(builder.Configuration);
 
-    builder.Services.AddControllers();
+    builder.Services.AddControllers( opt => opt.Filters.Add<ErrorHandlingFilterAttribute>());
 }
 
 var app = builder.Build();
 {
-    app.UseMiddleware<ErrorHandlingMiddleware>();
+    //app.UseMiddleware<ErrorHandlingMiddleware>();
     app.UseHttpsRedirection();
     app.MapControllers();
     app.Run();
