@@ -1,4 +1,5 @@
 using DinnerRes.Application.Authentication.Interfaces;
+using DinnerRes.Application.Common.Exceptions;
 using DinnerRes.Application.User.Interfaces;
 
 namespace DinnerRes.Application.Authentication.Services;
@@ -19,8 +20,7 @@ public class AuthenticationService : IAuthenticationService
         // Check if User already exists.
         if (_userRepository.GetUserByEmail(email) is not null)
         {
-            // TODO: Refactor this Exceptions.
-            throw new Exception("User with given email already exists");
+            throw new EmailDuplicatedException();
         }
         
         // Create User.
