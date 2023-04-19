@@ -1,5 +1,4 @@
 using DinnerRes.Application.Authentication.Interfaces;
-using DinnerRes.Application.Common.Exceptions;
 using DinnerRes.Application.User.Interfaces;
 using DinnerRes.Domain.Common.Errors;
 using ErrorOr;
