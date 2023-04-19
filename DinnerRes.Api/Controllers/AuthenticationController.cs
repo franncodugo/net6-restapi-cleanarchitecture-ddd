@@ -1,12 +1,12 @@
 using DinnerRes.Api.Contracts.Authentication;
+using DinnerRes.Application.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using DinnerRes.Application.Authentication.Interfaces;
 
 namespace DinnerRes.Api.Controllers;
 
-[ApiController]
 [Route("auth")]
-public class AuthenticationController : ControllerBase
+public class AuthenticationController : BaseApiController
 {
     private readonly IAuthenticationService _authService;
 
@@ -20,21 +20,31 @@ public class AuthenticationController : ControllerBase
     {
         var result = _authService.Register
             (request.FirstName, request.LastName, request.Email, request.Password);
-        
-        var response = new AuthenticationResponse
-            (result.user.Id, result.user.FirstName, result.user.LastName, result.user.Email, result.Token);
-        
-        return Ok(response);
+
+        return result.Match(
+            authenticationResult => Ok(MapResultToResponse(authenticationResult)),
+            errors => Problem(errors)
+        );
     }
     
     [HttpPost("login")]
     public IActionResult Login(LoginRequest request)
     {
         var result = _authService.Login(request.Email, request.Password);
-        
-        var response = new AuthenticationResponse
-            (result.user.Id, result.user.FirstName, result.user.LastName, result.user.Email, result.Token);
-        
-        return Ok(response);
+
+        return result.Match(
+            authResult => Ok(MapResultToResponse(authResult)),
+            errors => Problem(errors)
+        );
+    }
+    
+    private static AuthenticationResponse MapResultToResponse(AuthenticationResult result)
+    {
+        return new AuthenticationResponse(
+            result.user.Id, 
+            result.user.FirstName, 
+            result.user.LastName, 
+            result.user.Email, 
+            result.Token);
     }
 }

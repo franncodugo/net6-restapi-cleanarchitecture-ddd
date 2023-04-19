@@ -1,6 +1,8 @@
 using DinnerRes.Application.Authentication.Interfaces;
 using DinnerRes.Application.Common.Exceptions;
 using DinnerRes.Application.User.Interfaces;
+using DinnerRes.Domain.Common.Errors;
+using ErrorOr;
 
 namespace DinnerRes.Application.Authentication.Services;
 
@@ -15,12 +17,12 @@ public class AuthenticationService : IAuthenticationService
         _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
     }
     
-    public AuthenticationResult Register(string firstName, string lastName, string email, string password)
+    public ErrorOr<AuthenticationResult> Register(string firstName, string lastName, string email, string password)
     {
         // Check if User already exists.
         if (_userRepository.GetUserByEmail(email) is not null)
         {
-            throw new EmailDuplicatedException();
+            return Errors.User.DuplicateEmail;
         }
         
         // Create User.
@@ -41,20 +43,18 @@ public class AuthenticationService : IAuthenticationService
             (userEntity, token);
     }    
 
-    public AuthenticationResult Login(string email, string password)
+    public ErrorOr<AuthenticationResult> Login(string email, string password)
     {
         // Validate the given User exists
         if (_userRepository.GetUserByEmail(email) is not Domain.Entities.User user)
         {
-            // TODO: Refactor this.
-            throw new Exception("User with given email does not exist.");
+            return Errors.Authentication.InvalidCredentials;
         }
         
         // Validate the password is ok
         if (user.Password != password)
         {
-            // TODO: Refactor this.
-            throw new Exception("The given password is incorrect.");
+            return Errors.Authentication.InvalidCredentials;
         }
         
         // Create JWT token

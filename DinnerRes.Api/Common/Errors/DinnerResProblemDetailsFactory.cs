@@ -1,10 +1,12 @@
 using System.Diagnostics;
+using DinnerRes.Api.Common.Constants;
+using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Options;
 
-namespace DinnerRes.Api.Errors;
+namespace DinnerRes.Api.Common.Errors;
 
 public class DinnerResProblemDetailsFactory : ProblemDetailsFactory
 {
@@ -54,8 +56,11 @@ public class DinnerResProblemDetailsFactory : ProblemDetailsFactory
         {
             problemDetails.Extensions["traceId"] = traceId;
         }
-        
-        problemDetails.Extensions.Add("customProperty", "customValue");
+
+        if (httpContext?.Items[HttpContextConstants.Errors] is List<Error> errors)
+        {
+            problemDetails.Extensions.Add("errorCodes", errors.Select(e => e.Code));
+        }
     }
 
     public override ValidationProblemDetails CreateValidationProblemDetails(HttpContext httpContext,

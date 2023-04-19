@@ -1,9 +1,5 @@
-using System.ComponentModel;
-using DinnerRes.Api.Errors;
-using DinnerRes.Api.Filters;
-using DinnerRes.Api.Middleware;
+using DinnerRes.Api.Common.Errors;
 using DinnerRes.Application;
-using DinnerRes.Application.Authentication;
 using DinnerRes.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
