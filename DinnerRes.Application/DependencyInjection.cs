@@ -1,6 +1,5 @@
-using DinnerRes.Application.Authentication.Commands;
-using DinnerRes.Application.Authentication.Interfaces;
-using DinnerRes.Application.Authentication.Queries;
+using System.Reflection;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DinnerRes.Application;
@@ -9,9 +8,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddScoped<IAuthenticationCommandService, AuthenticationCommandService>();
-        services.AddScoped<IAuthenticationQueryService, AuthenticationQueryService>();
-        
+        services.AddMediatR(cfg=>cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
         return services;
     }
 }

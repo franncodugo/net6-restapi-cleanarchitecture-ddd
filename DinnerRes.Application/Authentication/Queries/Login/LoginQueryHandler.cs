@@ -1,32 +1,32 @@
-using ErrorOr;
 using DinnerRes.Application.Authentication.Interfaces;
 using DinnerRes.Application.User.Interfaces;
 using DinnerRes.Domain.Common.Errors;
+using ErrorOr;
+using MediatR;
 
-namespace DinnerRes.Application.Authentication.Queries;
+namespace DinnerRes.Application.Authentication.Queries.Login;
 
-public sealed class AuthenticationQueryService : IAuthenticationQueryService
+public sealed class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<AuthenticationResult>>
 {
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IUserRepository _userRepository;
-    
-    public AuthenticationQueryService(IJwtTokenGenerator jwtTokenGenerator,
-        IUserRepository userRepository)
+
+    public LoginQueryHandler(IJwtTokenGenerator jwtTokenGenerator, IUserRepository userRepository)
     {
-        _jwtTokenGenerator = jwtTokenGenerator ?? throw new ArgumentNullException(nameof(jwtTokenGenerator));
-        _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+        _jwtTokenGenerator = jwtTokenGenerator;
+        _userRepository = userRepository;
     }
-    
-    public ErrorOr<AuthenticationResult> Login(string email, string password)
+
+    public async Task<ErrorOr<AuthenticationResult>> Handle(LoginQuery query, CancellationToken cancellationToken)
     {
         // Validate the given User exists
-        if (_userRepository.GetUserByEmail(email) is not { } user)
+        if (_userRepository.GetUserByEmail(query.Email) is not { } user)
         {
             return Errors.Authentication.InvalidCredentials;
         }
         
         // Validate the password is ok
-        if (user.Password != password)
+        if (user.Password != query.Password)
         {
             return Errors.Authentication.InvalidCredentials;
         }
