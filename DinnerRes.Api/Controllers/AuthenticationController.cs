@@ -2,23 +2,27 @@ using DinnerRes.Api.Contracts.Authentication;
 using DinnerRes.Application.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using DinnerRes.Application.Authentication.Interfaces;
+using DinnerRes.Application.Authentication.Queries;
 
 namespace DinnerRes.Api.Controllers;
 
 [Route("auth")]
 public class AuthenticationController : BaseApiController
 {
-    private readonly IAuthenticationService _authService;
+    private readonly IAuthenticationCommandService _authCommandService;
+    private readonly IAuthenticationQueryService _authQueriesService;
 
-    public AuthenticationController(IAuthenticationService authService)
+    public AuthenticationController(IAuthenticationCommandService authCommandService, 
+        IAuthenticationQueryService authQueriesService)
     {
-        _authService = authService ?? throw new ArgumentNullException(nameof(authService));
+        _authCommandService = authCommandService ?? throw new ArgumentNullException(nameof(authCommandService));
+        _authQueriesService = authQueriesService ?? throw new ArgumentNullException(nameof(authQueriesService));
     }
     
     [HttpPost("register")]
     public IActionResult Register(RegisterRequest request)
     {
-        var result = _authService.Register
+        var result = _authCommandService.Register
             (request.FirstName, request.LastName, request.Email, request.Password);
 
         return result.Match(
@@ -30,7 +34,7 @@ public class AuthenticationController : BaseApiController
     [HttpPost("login")]
     public IActionResult Login(LoginRequest request)
     {
-        var result = _authService.Login(request.Email, request.Password);
+        var result = _authQueriesService.Login(request.Email, request.Password);
 
         return result.Match(
             authResult => Ok(MapResultToResponse(authResult)),

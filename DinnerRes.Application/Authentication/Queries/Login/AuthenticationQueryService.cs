@@ -1,51 +1,26 @@
+using ErrorOr;
 using DinnerRes.Application.Authentication.Interfaces;
 using DinnerRes.Application.User.Interfaces;
 using DinnerRes.Domain.Common.Errors;
-using ErrorOr;
 
-namespace DinnerRes.Application.Authentication.Services;
+namespace DinnerRes.Application.Authentication.Queries;
 
-public class AuthenticationService : IAuthenticationService
+public sealed class AuthenticationQueryService : IAuthenticationQueryService
 {
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IUserRepository _userRepository;
-    public AuthenticationService(IJwtTokenGenerator jwtTokenGenerator,
+    
+    public AuthenticationQueryService(IJwtTokenGenerator jwtTokenGenerator,
         IUserRepository userRepository)
     {
         _jwtTokenGenerator = jwtTokenGenerator ?? throw new ArgumentNullException(nameof(jwtTokenGenerator));
         _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
     }
     
-    public ErrorOr<AuthenticationResult> Register(string firstName, string lastName, string email, string password)
-    {
-        // Check if User already exists.
-        if (_userRepository.GetUserByEmail(email) is not null)
-        {
-            return Errors.User.DuplicateEmail;
-        }
-        
-        // Create User.
-        var userEntity = new Domain.Entities.User()
-        {
-            FirstName = firstName,
-            LastName = lastName,
-            Email = email,
-            Password = password
-        };
-        
-        _userRepository.Add(userEntity);
-        
-        // Create JWT Token.
-        var token = _jwtTokenGenerator.GenerateToken(userEntity);
-        
-        return new AuthenticationResult
-            (userEntity, token);
-    }    
-
     public ErrorOr<AuthenticationResult> Login(string email, string password)
     {
         // Validate the given User exists
-        if (_userRepository.GetUserByEmail(email) is not Domain.Entities.User user)
+        if (_userRepository.GetUserByEmail(email) is not { } user)
         {
             return Errors.Authentication.InvalidCredentials;
         }
